@@ -3,10 +3,16 @@ streamlit
 openai
 langchain
 langchain-openai
+langchain-community
 python-dotenv
 tiktoken
 
-# --- vector / others（必要に応じて調整） ---
+# --- loaders dependencies ---
+pymupdf      # (= PyMuPDF / fitz)
+docx2txt
+pypdf
+
+# --- your existing requirements (mac版ベース) ---
 chromadb==0.3.29
 click==8.1.7
 clickhouse-connect==0.8.9
