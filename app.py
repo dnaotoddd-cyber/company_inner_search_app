@@ -12,9 +12,6 @@ import constants as ct
 
 # Streamlit 設定は最初に1回だけ
 st.set_page_config(page_title=ct.APP_NAME)
-"""
-このファイルは、Webアプリのメイン処理が記述されたファイルです。
-"""
 
 ############################################################
 # 1. ライブラリの読み込み
@@ -33,7 +30,19 @@ from initialize import initialize
 import components as cn
 # （自作）変数（定数）がまとめて定義・管理されているモジュール
 import constants as ct
+APP_NAME = getattr(ct, "APP_NAME", "company_inner_search_app")
+ERROR_ICON = getattr(ct, "ERROR_ICON", "⚠️")
+INITIALIZE_ERROR_MESSAGE = getattr(ct, "INITIALIZE_ERROR_MESSAGE", "初期化処理に失敗しました。")
+LOG_DIR_PATH = getattr(ct, "LOG_DIR_PATH", "./logs")
+LOGGER_NAME = getattr(ct, "LOGGER_NAME", "ApplicationLog")
+APP_BOOT_MESSAGE = getattr(ct, "APP_BOOT_MESSAGE", "アプリが起動されました。")
 
+# logs フォルダが無くても落ちないように
+os.makedirs(LOG_DIR_PATH, exist_ok=True)
+
+# 以降は ct. をこれらに置き換えて使えます（任意）
+st.set_page_config(page_title=APP_NAME)
+logger = logging.getLogger(LOGGER_NAME)
 
 ############################################################
 # 2. 設定関連
@@ -46,22 +55,17 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 ############################################################
 # 3. 初期化処理
 ############################################################
+import traceback
+
 try:
     # 初期化処理（「initialize.py」の「initialize」関数を実行）
     initialize()
 except Exception as e:
-    # エラーログの出力
-    logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    # エラーメッセージの画面表示
-    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
-    # 後続の処理を中断
+    # ▼ ここを詳細表示に差し替え（原因の特定用）
+    st.error("初期化処理でエラーが発生しました（詳細を表示します）", icon="⚠️")
+    st.exception(e)  # 例外のスタックトレースを可視化
+    st.code(traceback.format_exc(), language="text")  # 文字列としても表示
     st.stop()
-
-# アプリ起動時のログファイルへの出力
-if not "initialized" in st.session_state:
-    st.session_state.initialized = True
-    logger.info(ct.APP_BOOT_MESSAGE)
-
 
 ############################################################
 # 4. 初期表示
