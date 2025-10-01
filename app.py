@@ -1,3 +1,17 @@
+import os, sys
+import streamlit as st
+
+# サブフォルダ（ダウンロード用/company_inner_search_app）を import パスに追加
+BASE_DIR = os.path.dirname(__file__)
+MODULE_DIR = os.path.join(BASE_DIR, "ダウンロード用", "company_inner_search_app")
+if MODULE_DIR not in sys.path:
+    sys.path.insert(0, MODULE_DIR)
+
+# 定数モジュールを import（下で使うのでここでOK）
+import constants as ct
+
+# Streamlit 設定は最初に1回だけ
+st.set_page_config(page_title=ct.APP_NAME)
 """
 このファイルは、Webアプリのメイン処理が記述されたファイルです。
 """
@@ -24,10 +38,6 @@ import constants as ct
 ############################################################
 # 2. 設定関連
 ############################################################
-# ブラウザタブの表示文言を設定
-st.set_page_config(
-    page_title=ct.APP_NAME
-)
 
 # ログ出力を行うためのロガーの設定
 logger = logging.getLogger(ct.LOGGER_NAME)
