@@ -1,4 +1,4 @@
-# --- core ---
+# --- Streamlit / OpenAI / LangChain ---
 streamlit
 openai
 langchain
@@ -7,12 +7,13 @@ langchain-community
 python-dotenv
 tiktoken
 
-# --- loaders dependencies ---
-pymupdf      # (= PyMuPDF / fitz)
-docx2txt
-pypdf
+# --- loaders が使う依存 ---
+pymupdf           # (= PyMuPDFLoader のバックエンド)
+docx2txt          # (= Docx2txtLoader のバックエンド)
+pypdf             # PDF系でよく使う（保険）
+python-docx 
 
-# --- your existing requirements (mac版ベース) ---
+# --- 既存で使っているもの（あなたのmac用ファイルから拾った分） ---
 chromadb==0.3.29
 click==8.1.7
 clickhouse-connect==0.8.9
