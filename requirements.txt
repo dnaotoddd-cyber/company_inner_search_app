@@ -1,5 +1,14 @@
 from dotenv import load_dotenv
 load_dotenv()
+
+import streamlit as st
+import os, sys
+
+st.set_page_config(page_title="LLM App") 
+
+if not OPENAI_API_KEY:
+    st.error("APIキーがありません")
+    st.stop()
 # --- Streamlit / OpenAI / LangChain ---
 streamlit
 openai
